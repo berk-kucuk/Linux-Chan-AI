@@ -1,0 +1,7 @@
+python-dotenv==1.0.1
+google-genai
+requests==2.32.3
+PyQt5==5.15.11
+gTTS==2.5.4
+pygame==2.6.1
+distro

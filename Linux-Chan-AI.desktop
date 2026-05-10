@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Linux Chan AI
+Comment=AI-powered Linux assistant with anime personality
+Exec=python /path/to/Linux-Chan-AI/main.py
+Icon=/path/to/Linux-Chan-AI/assets/icons/linux-chan_mini.png
+Terminal=false
+Categories=Utility;AI;
+Keywords=linux;ai;assistant;
