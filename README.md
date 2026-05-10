@@ -4,6 +4,19 @@
 
 ---
 
+<table>
+  <tr>
+    <td width="65%">
+      <p align="center"><b>Wide</b></p>
+      <img src="https://raw.githubusercontent.com/berk-kucuk/Linux-Chan-AI-v2.0/refs/heads/main/ui1.png" alt="Wide UI" style="width:100%;">
+    </td>
+    <td width="35%">
+      <p align="center"><b>Vertical</b></p>
+      <img src="https://raw.githubusercontent.com/berk-kucuk/Linux-Chan-AI-v2.0/refs/heads/main/ui2.png" alt="Vertical UI" style="width:100%;">
+    </td>
+  </tr>
+</table>
+
 ## Features
 
 ### AI & Agents
@@ -43,7 +56,7 @@
 ### With Nix
 
 ```bash
-git clone https://github.com/berkucuk/Linux-Chan-AI.git
+git clone https://github.com/berk-kucuk/Linux-Chan-AI.git
 cd Linux-Chan-AI
 nix-shell
 python main.py
@@ -52,7 +65,7 @@ python main.py
 ### Without Nix
 
 ```bash
-git clone https://github.com/berkucuk/Linux-Chan-AI.git
+git clone https://github.com/berk-kucuk/Linux-Chan-AI.git
 cd Linux-Chan-AI
 pip install -r requirements.txt
 python main.py
