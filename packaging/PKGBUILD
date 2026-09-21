@@ -1,0 +1,45 @@
+# Maintainer: Berk Kucuk <berkkucukk@proton.me>
+pkgname=linux-chan-ai
+pkgver=1.1.4
+pkgrel=2
+pkgdesc="Linux-themed AI chat assistant with PyQt6 GUI, edge-tts voice, and Gemini AI"
+arch=('any')
+url="https://github.com/berk-kucuk/Linux-Chan-AI"
+license=('MIT')
+# bubblewrap is a hard dependency, not an optional one: the terminal agent
+# refuses to run a command when no sandbox is available, so without it that
+# feature is simply off. firejail is accepted as a fallback at runtime.
+depends=('python' 'mpg123' 'bubblewrap')
+optdepends=('ffmpeg: alternative audio backend (ffplay)'
+            'mpv: alternative audio backend')
+install="$pkgname.install"
+# LOCAL BUILD: the source tarball is generated from the local working tree by
+# ../build-pkg.sh (NOT fetched from GitHub). To publish to the AUR, restore the
+# github archive::URL source and the real sha256sums.
+source=("$pkgname-$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+package() {
+    cd "Linux-Chan-AI-${pkgver}"
+
+    install -Dm755 linux-chan.py "$pkgdir/usr/share/Linux-Chan-AI/linux-chan.py"
+    install -Dm644 requirements.txt "$pkgdir/usr/share/Linux-Chan-AI/requirements.txt"
+
+    local icon
+    for icon in icons/*; do
+        install -Dm644 "$icon" "$pkgdir/usr/share/Linux-Chan-AI/icons/$(basename "$icon")"
+    done
+
+    install -Dm644 Linux-Chan-AI.desktop "$pkgdir/usr/share/applications/$pkgname.desktop"
+    sed -i \
+        -e "s|Exec=.*|Exec=/usr/bin/linux-chan-ai|" \
+        -e "s|Icon=.*|Icon=/usr/share/Linux-Chan-AI/icons/arch-chan_mini.png|" \
+        "$pkgdir/usr/share/applications/$pkgname.desktop"
+
+    [[ -f LICENSE ]] && install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+
+    install -Dm755 /dev/stdin "$pkgdir/usr/bin/linux-chan-ai" << 'EOF'
+#!/bin/sh
+exec /usr/share/Linux-Chan-AI/python-env/bin/python3 /usr/share/Linux-Chan-AI/linux-chan.py "$@"
+EOF
+}

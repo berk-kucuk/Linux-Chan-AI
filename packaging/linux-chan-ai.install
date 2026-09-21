@@ -1,0 +1,28 @@
+_setup_venv() {
+    python3 -m venv /usr/share/Linux-Chan-AI/python-env
+    /usr/share/Linux-Chan-AI/python-env/bin/pip install --quiet --upgrade pip
+    /usr/share/Linux-Chan-AI/python-env/bin/pip install --quiet \
+        -r /usr/share/Linux-Chan-AI/requirements.txt
+}
+
+post_install() {
+    echo "==> Setting up Python virtual environment..."
+    _setup_venv
+    echo ""
+    echo "==> Linux Chan AI installed!"
+    echo "==> Run the app and enter your Gemini API key in the Settings page."
+    echo "    Get a free key at: https://aistudio.google.com/apikey"
+    echo ""
+    echo "==> Run with: linux-chan-ai"
+    echo ""
+}
+
+post_upgrade() {
+    echo "==> Updating dependencies..."
+    _setup_venv
+    echo "==> Upgrade complete."
+}
+
+pre_remove() {
+    rm -rf /usr/share/Linux-Chan-AI/python-env
+}

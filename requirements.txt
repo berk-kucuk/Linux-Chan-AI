@@ -1,0 +1,5 @@
+python-dotenv>=1.0.1
+google-genai>=1.0.0
+PyQt6>=6.7.0
+edge-tts>=6.1.9
+distro>=1.9.0

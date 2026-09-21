@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=2.0
+Type=Application
+Name=Linux Chan AI
+Comment=Launch Linux Chan AI Chat
+Exec=VENV_PLACEHOLDER/bin/python3 SCRIPT_PLACEHOLDER/linux-chan.py
+Icon=SCRIPT_PLACEHOLDER/icons/arch-chan_mini.png
+Terminal=false
+Categories=AI;Utility;
