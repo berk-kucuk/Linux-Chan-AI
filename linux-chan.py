@@ -111,8 +111,16 @@ class Config:
                 pass
 
     def save(self):
-        os.makedirs(CONFIG_DIR, exist_ok=True)
-        with open(CONFIG_PATH, "w") as f:
+        os.makedirs(CONFIG_DIR, mode=0o700, exist_ok=True)
+        # The config holds the Gemini API key: create it 0600 (a plain
+        # open("w") gives 0644 under the usual umask) and tighten a file an
+        # older version already wrote.
+        fd = os.open(CONFIG_PATH, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        try:
+            os.fchmod(fd, 0o600)
+        except OSError:
+            pass
+        with os.fdopen(fd, "w") as f:
             json.dump(self.data, f, indent=2)
 
     def get(self, k: str):
