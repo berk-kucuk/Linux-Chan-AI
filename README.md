@@ -55,25 +55,64 @@
 
 ## Installation
 
-### Arch Linux (AUR)
+### From the Maze repository
+
+**On Maze Linux** the repository is already configured:
 
 ```bash
-yay -S linux-chan-ai
+sudo pacman -S linux-chan-ai
 ```
 
-Then launch from your application menu or run `linux-chan-ai`.
+**On Arch Linux and Arch-based distributions**, add the repository once:
 
-### Manual
+1. Import and trust the Maze signing key:
+
+   ```bash
+   curl -O https://mazerepo.berkkucukk.com.tr/packages/mazelinux.gpg
+   gpg --show-keys --with-fingerprint mazelinux.gpg
+   sudo pacman-key --add mazelinux.gpg
+   sudo pacman-key --lsign-key 7C4D515A6B930CB04794CEF6147C8159B3E2EE5F
+   ```
+
+   The fingerprint `gpg` prints must be `7C4D 515A 6B93 0CB0 4794  CEF6 147C 8159 B3E2 EE5F`.
+
+2. Add the repository to the end of `/etc/pacman.conf`:
+
+   ```ini
+   [mazelinux]
+   SigLevel = Required DatabaseOptional
+   Server = https://mazerepo.berkkucukk.com.tr/packages
+   ```
+
+3. Sync and install:
+
+   ```bash
+   sudo pacman -Syu linux-chan-ai
+   ```
+
+Optionally install `mazelinux-keyring` as well; it keeps the signing key up to date through pacman.
+
+Remove with `sudo pacman -Rns linux-chan-ai`.
+
+Then launch it from your application menu or run `linux-chan-ai`.
+
+### Build from source
+
+The package is built from this working tree by `build-pkg.sh` and installed with pacman, exactly like the published one:
 
 ```bash
+sudo pacman -S --needed base-devel git
 git clone https://github.com/berk-kucuk/Linux-Chan-AI.git
 cd Linux-Chan-AI
-bash install.sh
+sudo pacman -S --needed $(bash -c 'source packaging/PKGBUILD; echo "${depends[@]}" "${makedepends[@]}"')
+./build-pkg.sh --install
 ```
 
-The install script will ask for your Gemini API key, install system dependencies via pacman, create a venv, and add a `.desktop` entry.
+Without `--install` the package is only built, into `dist-pkg/`.
 
-Or manually:
+### Development
+
+Run straight from a checkout in a virtual environment:
 
 ```bash
 python3 -m venv venv
