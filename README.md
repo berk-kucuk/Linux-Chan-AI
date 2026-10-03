@@ -161,4 +161,6 @@ All settings are saved to `~/.config/linux-chan-ai/config.json` automatically.
 
 ## License
 
+Copyright © 2026 Berk Küçük
+
 MIT — see `LICENSE` for details.
