@@ -5,7 +5,7 @@ pkgrel=3
 pkgdesc="Linux-themed AI chat assistant with PyQt6 GUI, edge-tts voice, and Gemini AI"
 arch=('any')
 url="https://github.com/berk-kucuk/Linux-Chan-AI"
-license=('MIT')
+license=('GPL3')
 # bubblewrap is a hard dependency, not an optional one: the terminal agent
 # refuses to run a command when no sandbox is available, so without it that
 # feature is simply off. firejail is accepted as a fallback at runtime.
