@@ -688,6 +688,7 @@ def _sandbox_argv(cmd: str) -> Optional[list]:
       --ro-bind / /        the whole system, readable but not writable
       --tmpfs $HOME        home disappears, and with it every dotfile: no
                            .ssh, no .bashrc, no ~/.config/autostart
+      --tmpfs /run/user    session bus, agents, Wayland: no way back out
       --bind SANDBOX       the one directory that is writable, put back
 
     Reads of system paths stay allowed on purpose. The assistant's job is to
@@ -703,9 +704,24 @@ def _sandbox_argv(cmd: str) -> Optional[list]:
             "--dev", "/dev", "--proc", "/proc",
             "--tmpfs", "/tmp",
             "--tmpfs", home,
+            # /run/user/<uid> holds the session bus, systemd --user, the
+            # ssh/gpg agents, Wayland and PipeWire. Left visible through the
+            # read-only bind, an approved command could ask the session bus
+            # or `systemd-run --user` to run something OUTSIDE the sandbox, or
+            # use the user's SSH keys through the agent. Hide it, and drop the
+            # variables that point at those sockets.
+            "--tmpfs", "/run/user",
+            "--unsetenv", "DBUS_SESSION_BUS_ADDRESS",
+            "--unsetenv", "XDG_RUNTIME_DIR",
+            "--unsetenv", "SSH_AUTH_SOCK",
+            "--unsetenv", "GPG_AGENT_INFO",
+            "--unsetenv", "WAYLAND_DISPLAY",
+            "--unsetenv", "DISPLAY",
+            "--unsetenv", "XAUTHORITY",
             "--bind", SANDBOX_DIR, SANDBOX_DIR,
             "--chdir", SANDBOX_DIR,
             "--unshare-pid",
+            "--unshare-ipc",
             "--die-with-parent",
             # No controlling terminal to inject keystrokes back into.
             "--new-session",

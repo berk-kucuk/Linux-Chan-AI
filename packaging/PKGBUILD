@@ -1,7 +1,7 @@
 # Maintainer: Berk Kucuk <berkkucukk@proton.me>
 pkgname=linux-chan-ai
-pkgver=1.1.4
-pkgrel=3
+pkgver=1.1.5
+pkgrel=1
 pkgdesc="Linux-themed AI chat assistant with PyQt6 GUI, edge-tts voice, and Gemini AI"
 arch=('any')
 url="https://github.com/berk-kucuk/Linux-Chan-AI"
